@@ -9,6 +9,10 @@ update = st.button('Save')
 
 st.text('1) Draw your markers in one stroke each')
 
+markersize = st.sidebar.number_input('Choose a markersize', min_value=1, max_value=None, value=50)
+linewidth = st.sidebar.number_input('Choose a marker linewidth', min_value=0., max_value=10., value=1., step=0.1)
+
+
 # Create a canvas component
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
@@ -60,9 +64,9 @@ if canvas_result.image_data is not None:
 
     for ax_, path, marker_name in zip(ax, marker_paths, marker_names):
         ax_.set_facecolor('#eee')
-        scatter = ax_.scatter(_x, _y, fc=fig.get_facecolor(), ec='C0', lw = 1,
+        scatter = ax_.scatter(_x, _y, fc=fig.get_facecolor(), ec='C0', lw = linewidth,
                      marker=path,
-                     s=50, zorder=999)
+                     s=markersize, zorder=999)
         ax_.set_title(marker_name)
 
     st.pyplot(fig)
