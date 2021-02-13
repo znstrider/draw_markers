@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 update = st.button('Save')
 
-st.text('1) Draw your markers')
+st.text('1) Draw your markers in one stroke each')
 
 # Create a canvas component
 canvas_result = st_canvas(
@@ -29,6 +29,8 @@ st.text('3) Save your markers by Clicking Save Above')
 if canvas_result.json_data is not None:
     marker_paths = []
     marker_names = name_input.split(',')
+    marker_names = [name.strip() for name in marker_names]
+
     for d, name in zip(canvas_result.json_data["objects"], marker_names):
         path = d["path"]
         codes = [p[0] for p in path]
@@ -52,6 +54,9 @@ if canvas_result.image_data is not None:
     _y = np.random.uniform(0,1,50)
 
     fig, ax = plt.subplots(1, n_markers, figsize=(n_markers*4, 4))
+
+    if not isinstance(ax, np.ndarray):
+        ax = [ax]
 
     for ax_, path, marker_name in zip(ax, marker_paths, marker_names):
         ax_.set_facecolor('#eee')
